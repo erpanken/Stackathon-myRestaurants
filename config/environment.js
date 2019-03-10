@@ -7,7 +7,7 @@ var environments = {
     FIREBASE_PROJECT_ID: 'myrestaurants-59e6d',
     FIREBASE_STORAGE_BUCKET: 'myrestaurants-59e6d.appspot.com',
     FIREBASE_MESSAGING_SENDER_ID: '47086541077',
-    GOOGLE_CLOUD_VISION_API_KEY: 'AIzaSyDvhPi13GgwihwC9PU885rLfRF8TRIizro',
+    GOOGLE_CLOUD_VISION_API_KEY: 'AIzaSyCLgmQWPMg2Q_PJuzYO2vILWTnmOBLZ_0I',
   },
   production: {
     // Warning: This file still gets included in your native binary and is not a secure way to store secrets if you build for the app stores. Details: https://github.com/expo/expo/issues/83
