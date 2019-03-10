@@ -103,6 +103,12 @@ export default class App extends React.Component {
       return;
     }
 
+    let description = null;
+    if (googleResponse)
+      description = googleResponse.responses[0].textAnnotations[0].description.replace(
+        /\s+$/,
+        ''
+      );
     return (
       <View
         style={{
@@ -138,14 +144,13 @@ export default class App extends React.Component {
         />
 
         <Text>Raw JSON:</Text>
-
-        {googleResponse && (
+        {description && (
           <Text
             onPress={this._copyToClipboard}
             onLongPress={this._share}
             style={{ paddingVertical: 10, paddingHorizontal: 10 }}
           >
-            JSON.stringify(googleResponse.responses)}
+            {description}
           </Text>
         )}
       </View>
@@ -226,26 +231,27 @@ export default class App extends React.Component {
             ],
             image: {
               source: {
-                imageUri: image,
+                imageUri:
+                  'https://www.glutenfreefollowme.com/wp-content/uploads/2017/06/Jacks-Wife-Freda-288x219.png',
               },
             },
           },
         ],
       });
       let response = await fetch(
-        'https://vision.googleapis.com/v1/images:annotate?key=' +
-          Environment['GOOGLE_CLOUD_VISION_API_KEY'],
+        'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyCLgmQWPMg2Q_PJuzYO2vILWTnmOBLZ_0I',
         {
+          method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
-          method: 'POST',
+
           body: body,
         }
       );
       let responseJson = await response.json();
-      console.log(responseJson);
+      // console.log(responseJson);
       this.setState({
         googleResponse: responseJson,
         uploading: false,
@@ -256,6 +262,47 @@ export default class App extends React.Component {
   };
 }
 
+//yelp API call
+// const yeplConfig = {
+//   headers: {
+//     Authorization:
+//       'Bearer NEeaAtk4wztYxtmEmGECM2H8HKNpaj7Fu5kbzWvUkt49n66H2W5NsZI2hfZP5fVp9dEb33lHst7zYpqR48vpG31LbNNQOZmM1BnijmBaawXrqoY3QC-UKOPz24uBXHYx',
+//   },
+//   params: {
+//     name: 'JACK\'S WIFE FREDA',
+//     address1: '50 Carmine St',
+//     city: 'NYC',
+//     state: 'NY',
+//     country: 'US'
+//   },
+// };
+
+// let yelpResponse = await fetch(
+//   'https://api.yelp.com/v3/businesses/matches',yeplConfig,
+//   {
+//     method: 'GET',
+//     headers: {
+//       Accept: 'application/json',
+//       'Content-Type': 'application/json',
+//     },
+
+//     body: body,
+//   }
+// );
+
+// let responseJson = await response.json();
+// // console.log(responseJson);
+// this.setState({
+//   googleResponse: responseJson,
+//   uploading: false,
+// });
+// } catch (error) {
+// console.log(error);
+// }
+// };
+// }
+
+//upload to firebase~~~~~~~~~
 async function uploadImageAsync(uri) {
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -281,7 +328,7 @@ async function uploadImageAsync(uri) {
 
   return await snapshot.ref.getDownloadURL();
 }
-
+//style ~~~~~~~~~~~~~
 const styles = StyleSheet.create({
   container: {
     flex: 1,
